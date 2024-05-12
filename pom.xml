@@ -19,5 +19,11 @@
             <artifactId>org.wso2.balana</artifactId>
             <version>1.2.22</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.santuario</groupId>
+            <artifactId>xmlsec</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+
     </dependencies>
 </project>

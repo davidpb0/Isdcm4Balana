@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" PolicyId="urn:isdcm:policyid:3" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable" Version="1.0" xsi:schemaLocation="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17 http://docs.oasis-open.org/xacml/3.0/xacml-core-v3-schema-wd-17.xsd">
+
+	<Description> Documental Planets </Description>
+	<Target/>
+	<Rule Effect="Permit" RuleId="urn:oasis:names:tc:xacml:2.0:ejemplo:RulePlanets">
+		<Description>Todos los usuarios del Reino Unido pueden reproducir el documental de la BBC urn:bbc:mdocum:Planets.mp4</Description>
+
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<!-- Which resource -->
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:regexp-string-match">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">urn:bbc:mdocum:Planets.mp4</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+					</Match>
+
+					<!-- Which action  -->
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">playDocumental</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+
+				</AllOf>
+			</AnyOf>
+		</Target>
+
+		<Condition>
+			<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+				<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+					<AttributeDesignator AttributeId="country" Category="urn:oasis:names:tc:xacml:3.0:country" DataType="http://www.w3.org/2001/XMLSchema#string" MustBePresent="false"/>
+				</Apply>
+				<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Reino Unido</AttributeValue>
+			</Apply>
+		</Condition>
+	</Rule>
+
+	<Rule Effect="Deny" RuleId="urn:oasis:names:tc:xacml:2.0:lab66:FinalRule"/>
+
+<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+<ds:SignedInfo>
+<ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+<ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+<ds:Reference URI="">
+<ds:Transforms>
+<ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+<ds:Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+</ds:Transforms>
+<ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ds:DigestValue>YqucGvZhMRqbE/sEy7a2TL0ho8k=</ds:DigestValue>
+</ds:Reference>
+</ds:SignedInfo>
+<ds:SignatureValue>
+egiHeZ6addEMmnVKu6YD0TqT0LEPgXbRqZCTos8EBPempE6lvBaPfy6K3tufgxML4jjEZMAni7R6&#13;
+pq83dqRPCXKyl/lH3inYsWCmZX5P2fwHx4Iv4J42tPwiGDv5EVfXlSa+2mYjG+RPS+PZQ9DOOd60&#13;
+yC5/pF1o0q2G3TRzoqaCLfLgYcrtw975I0ZhFljMbkxZQod7exm2XLaK+4HTSVJYKPGqFNdXETij&#13;
+/8B5c4xN/lbZf1b2wewKO5vM7XgIKIpj7riDYQILQ3+Jlp8Kwg+E6ln0OuvhdMC35Kvf2A6ztQii&#13;
+umIXynheSbfKx6kqB4e8WSxvqUd79nlxooxA3Q==
+</ds:SignatureValue>
+<ds:KeyInfo>
+<ds:KeyValue>
+<ds:RSAKeyValue>
+<ds:Modulus>pT/40+xQOKElm5C3t03bRy9TMPfVt3/Ba716hEqsD0oUkWXs5c1G8Z8Bx1JTXr+Yv2nlcVRNtCfn&#13;
+MSu6Hq0vPSLT/LSELV567zAwk8L5tFiBGSb6RgLDOapRrdJHEsl6RR0rGDwAeDns+o7nCCRmG28h&#13;
+av1P5S7UNeOxD2vhEnwc97EOAmN1oKptrkPi/tdL3SLtHtr39Kj7Jkkvx4Y7O0RGIvi5ZRq2OLd0&#13;
+VxlB11ekAvezlSmHRRCbD+RVyFhNZzoK6tZQGQJPu9+S1vpHDWBRPZ7JyTvtenvsBbEAEqatsdsj&#13;
+dSQK8uAGnuD0tGB6/wvthp8OKYAIrX85CPXcCw==</ds:Modulus>
+<ds:Exponent>AQAB</ds:Exponent>
+</ds:RSAKeyValue>
+</ds:KeyValue>
+<ds:X509Data>
+<ds:X509Certificate>
+MIIDbTCCAlWgAwIBAgIIBZmvizziE9swDQYJKoZIhvcNAQELBQAwZTELMAkGA1UEBhMCRVMxEjAQ&#13;
+BgNVBAgTCUJhcmNlbG9uYTESMBAGA1UEBxMJQmFyY2Vsb25hMQ4wDAYDVQQKEwVpc2RjbTEOMAwG&#13;
+A1UECxMFYWRtaW4xDjAMBgNVBAMTBWFkbWluMB4XDTI0MDUxMjE0NDExOFoXDTM0MDUxMDE0NDEx&#13;
+OFowZTELMAkGA1UEBhMCRVMxEjAQBgNVBAgTCUJhcmNlbG9uYTESMBAGA1UEBxMJQmFyY2Vsb25h&#13;
+MQ4wDAYDVQQKEwVpc2RjbTEOMAwGA1UECxMFYWRtaW4xDjAMBgNVBAMTBWFkbWluMIIBIjANBgkq&#13;
+hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApT/40+xQOKElm5C3t03bRy9TMPfVt3/Ba716hEqsD0oU&#13;
+kWXs5c1G8Z8Bx1JTXr+Yv2nlcVRNtCfnMSu6Hq0vPSLT/LSELV567zAwk8L5tFiBGSb6RgLDOapR&#13;
+rdJHEsl6RR0rGDwAeDns+o7nCCRmG28hav1P5S7UNeOxD2vhEnwc97EOAmN1oKptrkPi/tdL3SLt&#13;
+Htr39Kj7Jkkvx4Y7O0RGIvi5ZRq2OLd0VxlB11ekAvezlSmHRRCbD+RVyFhNZzoK6tZQGQJPu9+S&#13;
+1vpHDWBRPZ7JyTvtenvsBbEAEqatsdsjdSQK8uAGnuD0tGB6/wvthp8OKYAIrX85CPXcCwIDAQAB&#13;
+oyEwHzAdBgNVHQ4EFgQUuB4r7pYpEdFZnfQgQaDp5CAYTXYwDQYJKoZIhvcNAQELBQADggEBAJ9A&#13;
+OCjWeZMckJVTuiTzmyh97GCNd/EW/F1e2Z+DQu5OnmuK/IkmxgzQhqUAx+J4k+HjC+Ea4OWgqK5c&#13;
+69chjHOUdBBkkST4MyOQ/yI8CD90+t8sDW9KhUtuBVwW0Vujk256+X/ECptLPGYIngpD6SdgXl8U&#13;
+A90NcR7ka9iSUAldc1e3VD/lM2e8pEbybvZmFFnzDh4/buvqKrfnJtAh7m20vPH+tB1S/OwCMWuY&#13;
+6bPr8rt9Jp1ZakHt42YLnkFxEJ2bKMxoUuEylxwtNfrTouRhq9luJHm0hNEdQP74ak1HfwJMO+WH&#13;
+FzWaTqropze+AgAfrXbvXiuGfwhFLwyuH8s=
+</ds:X509Certificate>
+</ds:X509Data>
+</ds:KeyInfo>
+</ds:Signature></Policy>
