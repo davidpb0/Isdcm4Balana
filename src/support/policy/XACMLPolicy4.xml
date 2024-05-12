@@ -1,0 +1,62 @@
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17 http://docs.oasis-open.org/xacml/3.0/xacml-core-v3-schema-wd-17.xsd"
+        PolicyId="ConfidentialDocumentAccess"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+        Version="1.0">
+    <Description>Control de acceso para visualizar documentos confidenciales.</Description>
+    <Target/>
+    <Rule RuleId="ViewConfidentialDocument" Effect="Permit">
+        <Description>Los Managers pueden ver el document ArchivoConfidencial.pdf durante las horas de trabajo.</Description>
+        <Target>
+            <AnyOf>
+                <AllOf>
+                    <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Manager</AttributeValue>
+                        <AttributeDesignator MustBePresent="false"
+                                             Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                             AttributeId="urn:oasis:names:tc:xacml:1.0:subject:role"
+                                             DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </Match>
+                    <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">view</AttributeValue>
+                        <AttributeDesignator MustBePresent="false"
+                                             Category="urn:oasis:names:tc:xacml:1.0:action-category:action"
+                                             AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                                             DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </Match>
+                    <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ArchivoConfidencial.pdf</AttributeValue>
+                        <AttributeDesignator MustBePresent="false"
+                                             Category="urn:oasis:names:tc:xacml:1.0:resource-category:resource"
+                                             AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                                             DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </Match>
+                </AllOf>
+            </AnyOf>
+        </Target>
+        <Condition>
+    <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+        <!-- Check time is after or equal to start time -->
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-greater-than-or-equal">
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                <AttributeDesignator MustBePresent="false" AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time"
+                                     Category="urn:oasis:names:tc:xacml:1.0:environment-category:environment"
+                                     DataType="http://www.w3.org/2001/XMLSchema#time"/>
+            </Apply>
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">08:00:00</AttributeValue>
+        </Apply>
+        <!-- Check time is before or equal to end time -->
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-less-than-or-equal">
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+                <AttributeDesignator MustBePresent="false" AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time"
+                                     Category="urn:oasis:names:tc:xacml:1.0:environment-category:environment"
+                                     DataType="http://www.w3.org/2001/XMLSchema#time"/>
+            </Apply>
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">20:00:00</AttributeValue>
+        </Apply>
+    </Apply>
+</Condition>
+    </Rule>
+    <Rule RuleId="default-deny" Effect="Deny"/>
+</Policy>
